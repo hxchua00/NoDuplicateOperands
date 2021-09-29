@@ -10,45 +10,62 @@ namespace NoDuplicateOperands
     {
         static void Main(string[] args)
         {
-            int x =4, y=4;
+            int x = 4, y = 4;
+
             try
             {
-                RandomMethod(x, y);
+                int res1 = RandomMethod1(x, y);
+                int res2 = RandomMethod2(x, y);
             }
-            catch (NoDuplicateOperandsException e)
+            catch (MyArgumentExveption e)
             {
                 Console.WriteLine(e.Message);
             }
+            
+            
+           
 
             Console.ReadLine();
         }
 
-        public static void RandomMethod(int a, int b)
+        public static int RandomMethod1(int a, int b)
         {
-            
-            try
+
+            int add = a + b;
+
+            if(a == b)
             {
-                int add = a + b;
-                
+                throw new MyArgumentExveption(a, b);
             }
-            catch(NoDuplicateOperandsException e)
+            return add;
+
+        }
+        public static int RandomMethod2(int a, int b)
+        {
+
+            int subtract = a - b;
+
+            if (a == b)
             {
-                if(a == b)
-                {
-                    throw e;
-                }
+                throw new MyArgumentExveption(a, b);
             }
-            
+            return subtract;
+
         }
 
-        class NoDuplicateOperandsException : Exception
+        class MyArgumentExveption : Exception
         {
-            public NoDuplicateOperandsException() { }
+            private static readonly string ErrMessage = "No Duplicate Operands Allowed!";
 
-            public NoDuplicateOperandsException(string msg) 
-                :base(String.Format("No Duplicate Operands Allowed! {0}", msg))
+            public int x { get; set; }
+            public int y { get; set; }
+            public MyArgumentExveption() { }
+
+            public MyArgumentExveption(int x, int y) 
+                :base(ErrMessage)
             {
-                msg = "No Duplicate Operands Allowed!";
+                this.x = x;
+                this.y = y;
             }
         }
     }
